@@ -63,6 +63,6 @@ To validate a field, just add the @REGEXP_VALIDATE action tag with your regular 
 ```
 @REGEXP_VALIDATE=^[0-9]{2}\u0020[a-z]$
 ```
-Currently** no spaces** are permitted with the hooks parser, instead use \u0020.
+Currently **no spaces** are permitted with the hooks parser, instead use \u0020.
 
 The example above checks that the field value has exactly 2 digits and one lowercase letter separated by a space.
