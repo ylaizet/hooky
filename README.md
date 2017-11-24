@@ -1,6 +1,6 @@
-# REDCap HookY
+# HookY
 
-A bunch of REDCap hooks for REDCap hook framework.
+A bunch of REDCap hooks to use with REDCap hook framework.
 
 * regular expression validation of field values via action tags (redcap_framework_regexp_validation.php)
 
