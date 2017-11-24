@@ -1,8 +1,8 @@
 # REDCap HookY
 
-Bulk of REDCap hooks for REDCap hook framework.
+A bunch of REDCap hooks for REDCap hook framework.
 
-* regular expression validation of field values (redcap_framework_regexp_validation.php)
+* regular expression validation of field values via action tags (redcap_framework_regexp_validation.php)
 
 ## Requirements
 
@@ -10,24 +10,25 @@ Bulk of REDCap hooks for REDCap hook framework.
 
 ### Install REDCap hook framework
 
-For more details, refer to the official documentation
+For more details, please refer to the official documentation.
 
 ```bash
 cd /var/www/redcap
 mkdir -P hooks/server/global
+cd hooks
 git clone git@github.com/123andy/redcap-hook-framework.git framework
 ```
 
-* Check that you have declared the path of the redcap_hooks.php in the hook section in you Control Center of the REDCap interface to activate hook framework
+**NOTE** : Be sure to declare the path of the redcap_hooks.php in the hook section in you Control Center of the REDCap interface to activate hook framework
 
 ## Install HookY
 
 ```bash
-cd /var/www/redcap
+cd /var/www/redcap/hooks/
 git clone git@github.com/ylaizet/hooky.git hooky
 ```
 
-After installing the framework and hooky, the REDCap directory tree should look like this:
+After installing the framework and HookY, the REDCap directory tree should look like this:
 
 * redcap_vx.y.z
 * plugins
@@ -39,16 +40,18 @@ After installing the framework and hooky, the REDCap directory tree should look 
     * pidxx (a folder for project-specific hooks)
   * hooky (content of this repository)
 
-## Usage
+## Use HookY
 
+Each HookY hook file can be used by a simple include command in a php file named according to the hook function names related to where you want to use the hook.
 
-* Create a php file named according to the hook function names related to where you want to use the hook. For instance, to use the hook in Data Entry forms, you have to create a file named *redcap_data_entry_form.php*
-* Place this file either in the *global* or a project specific *pidxx* directory according to your needs
-In this file, you just need to declare any hook file you want to use.
+For instance, to use a hook in a Data Entry forms, you have to create a file named *redcap_data_entry_form.php* and place it either in the *global* or a project specific *pidxx* directory according to your needs.
 
+Here is an example of the content of such a file:
+
+redcap_data_entry_form.php
 ```php
 <?php
-	include_once('../../hooky/redcap_framework_regexp_validation.php');
+	include_once(dirname(__FILE__).'/../../hooky/redcap_framework_regexp_validation.php');
 ?>
 ```
 ## Regular expression validation
