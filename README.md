@@ -66,3 +66,28 @@ To validate a field, just add the @REGEXP_VALIDATE action tag with your regular 
 Currently **no spaces** are permitted with the hooks parser, instead use \u0020.
 
 The example above checks that the field value has exactly 2 digits and one lowercase letter separated by a space.
+
+## Query autocomplete
+
+This hook transforms an input field into an autocomplete populated with a redcap getdata query.
+
+To apply it to a field, just add the @QUERY_AUTOCOMPLETE action tag with a json to set parameters for the getData Query
+
+```
+@QUERY_AUTOCOMPLETE={"asLabels":True,"value_format":"%s","value_fields":["redcap_repeat_instance"],"label_format":"[%s]\u0020%s-%s","label_fields":["redcap_repeat_instance","tumorpathologyevent_type","tumorpathologyevent_startdate"],"filter":{"redcap_repeat_instrument":"TumorPathologyEvent"}}
+```
+
+**Parameters:**
+
+* `asLabels` : boolean to specify if the data is returned as raw or as label
+* `value_fields` : array of redcap field names (variable name) used in `value_format` string formatting
+* `value_format` : expression to format the string used as value for the autocomplete list. Each `%s` will be replaced in the expression by it's position related field set in `value_fields` array
+* `label_fields` : array of redcap field names (variable name) used in `label_format` string formatting
+* `label_format` : expression to format the string used as value for the autocomplete list. Each `%s` will be replaced in the expression by it's position related field set in `label_fields` array
+* `filter` : key:values pairs of filtering contrains to apply on data before populating the autocomplete
+
+Currently **no spaces** are permitted with the hooks parser, instead use \u0020.
+
+### Disclaimer
+
+Be aware that no DAG filtering is applied with the @QUERY_AUTOCOMPLETE !
