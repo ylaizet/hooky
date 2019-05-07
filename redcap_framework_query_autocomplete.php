@@ -67,10 +67,14 @@ foreach($hook_functions[$term] as $field => $details) {
 		}
 		$data_filtered = array();
 		foreach ($data as $item) {
+			$keep_item = TRUE;
 			foreach ($params->filter as $filter_key => $filter_value) {
-				if ($item[$filter_key] == $filter_value) {
-					$data_filtered[] = $item;
+				if ($item[$filter_key] != $filter_value) {
+					$keep_item = FALSE;
 				}
+			}
+			if ($keep_item == TRUE) {
+				$data_filtered[] = $item;
 			}
 		}
 		$data = $data_filtered;
