@@ -64,7 +64,7 @@ $(document).ready(function() {
 		if (!event.target.validity.valid) {
 			var pattern_error_msg = 'The value in ' + event.data.field_name + ' does not match the requested pattern: ' + event.data.params;
 			if (event.data.err_msg) {
-				pattern_error_msg = event.data.err_msg.split('\u0020').join(' ') + "\n\n" + event.data.params;
+				pattern_error_msg = event.data.err_msg.split('\\u0020').join(' ') + "\n\n" + event.data.params;
 			}
 			//event.target.setCustomValidity(pattern_error_msg);
 			$(event.target).attr("style", "font-weight: bold; background-color: rgb(255, 183, 190);");
