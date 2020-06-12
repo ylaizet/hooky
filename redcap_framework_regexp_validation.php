@@ -61,13 +61,15 @@ $(document).ready(function() {
 
 	// Put a link over destination fields to show they are linked to a master lookup field
 	function check_pattern(event) {
-		if (!event.target.validity.valid ) {
-			var pattern_error_msg = event.data.err_msg + "\n\n" + 'The value does not match the requested pattern: ' + event.data.params;
-			pattern_error_msg = pattern_error_msg.split('\u0020').join(' ');
+		if (!event.target.validity.valid) {
+			var pattern_error_msg = 'The value in ' + event.data.field_name + ' does not match the requested pattern: ' + event.data.params;
+			if (event.data.err_msg) {
+				pattern_error_msg = event.data.err_msg.split('\u0020').join(' ') + "\n\n" + event.data.params;
+			}
 			//event.target.setCustomValidity(pattern_error_msg);
 			$(event.target).attr("style", "font-weight: bold; background-color: rgb(255, 183, 190);");
 			alert(pattern_error_msg);
-			setTimeout(function() {$(event.target).focus()}, 0);
+//			setTimeout(function() {$(event.target).focus()}, 0);//Inactivated focus otherwise it makes a loop of alerts in case of multiple errors
 		} else {
 			$(event.target).attr("style", "font-weight: normal; background-color: rgb(255, 255, 255);");
 		}
@@ -84,7 +86,7 @@ $(document).ready(function() {
 		if (params) {
 			var input = $('input[name="' + field_name + '"]');
 			$(input).attr("pattern", params);
-			$(input).on("blur", {params: params, err_msg: err_msg}, check_pattern);
+			$(input).on("blur", {params: params, err_msg: err_msg, field_name: field_name}, check_pattern);
 		}
 	});
 });
