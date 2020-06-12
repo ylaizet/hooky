@@ -19,7 +19,7 @@
 
 
 $term = '@REGEXP_VALIDATE';
-$error_message_tag = '@REGEXP_ER_MSG';
+$error_message_tag = '@REGEXP_ERR_MSG';
 hook_log("Starting $term for project $project_id", "DEBUG");
 
 ///////////////////////////////
