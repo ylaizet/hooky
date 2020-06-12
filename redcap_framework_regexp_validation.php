@@ -19,6 +19,7 @@
 
 
 $term = '@REGEXP_VALIDATE';
+$error_message_tag = '@REGEXP_ER_MSG';
 hook_log("Starting $term for project $project_id", "DEBUG");
 
 ///////////////////////////////
@@ -47,6 +48,7 @@ foreach($hook_functions[$term] as $field => $details) {
 	$i = new stdClass();
 	$i->fieldName = $field;
 	$i->params = $details['params'];
+	$i->err_msg = isset($hook_functions[$error_message_tag][$field]) ? $hook_functions[$error_message_tag][$field] : "";
 	$startup_vars[] = $i;
 }
 ?>
@@ -60,7 +62,7 @@ $(document).ready(function() {
 	// Put a link over destination fields to show they are linked to a master lookup field
 	function check_pattern(event) {
 		if (!event.target.validity.valid ) {
-			var pattern_error_msg = 'The value does not match the requested pattern: ' + event.data.params;
+			var pattern_error_msg = 'The value does not match the requested pattern: ' + event.data.params + "/n" + event.data.err_msg;
 			//event.target.setCustomValidity(pattern_error_msg);
 			$(event.target).attr("style", "font-weight: bold; background-color: rgb(255, 183, 190);");
 			alert(pattern_error_msg);
@@ -80,7 +82,7 @@ $(document).ready(function() {
 		if (params) {
 			var input = $('input[name="' + field_name + '"]');
 			$(input).attr("pattern", params);
-			$(input).on("blur", {params: params}, check_pattern);
+			$(input).on("blur", {params: params, err_msg: err_msg}, check_pattern);
 		}
 	});
 });
