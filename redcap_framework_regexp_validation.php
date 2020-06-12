@@ -20,7 +20,7 @@
 
 $term = '@REGEXP_VALIDATE';
 $error_message_tag = '@REGEXP_ERR_MSG';
-hook_log("Starting $term for project $project_id", "DEBUG");
+//hook_log("Starting $term for project $project_id", "DEBUG");
 
 ///////////////////////////////
 //	Enable hook_functions and hook_fields for this plugin (if not already done)
@@ -48,7 +48,7 @@ foreach($hook_functions[$term] as $field => $details) {
 	$i = new stdClass();
 	$i->fieldName = $field;
 	$i->params = $details['params'];
-	$i->err_msg = isset($hook_functions[$error_message_tag][$field]) ? $hook_functions[$error_message_tag][$field] : "";
+	$i->err_msg = isset($hook_functions[$error_message_tag][$field]) ? $hook_functions[$error_message_tag][$field]['params'] : "";
 	$startup_vars[] = $i;
 }
 ?>
@@ -62,7 +62,8 @@ $(document).ready(function() {
 	// Put a link over destination fields to show they are linked to a master lookup field
 	function check_pattern(event) {
 		if (!event.target.validity.valid ) {
-			var pattern_error_msg = 'The value does not match the requested pattern: ' + event.data.params + "/n" + event.data.err_msg;
+			var pattern_error_msg = event.data.err_msg + "\n\n" + 'The value does not match the requested pattern: ' + event.data.params;
+			pattern_error_msg = pattern_error_msg.split('\u0020').join(' ');
 			//event.target.setCustomValidity(pattern_error_msg);
 			$(event.target).attr("style", "font-weight: bold; background-color: rgb(255, 183, 190);");
 			alert(pattern_error_msg);
@@ -76,6 +77,7 @@ $(document).ready(function() {
 	$(lookupFields).each(function(i, obj) {
 		var field_name = obj.fieldName;
 		var params = obj.params;
+		var err_msg = obj.err_msg;
 		//console.log('i: ' + i);console.log(field_name);console.log(params);
 
 		// Add event handler to blur event
